@@ -17,27 +17,65 @@
 
 
 
+//Vanilla JS
+/*
+  const plus = document.getElementById("plus");
+  const minus = document.getElementById("minus");
+  const num = document.querySelector("span");
+  let count = 7;
+
+
+  const updateNum = () => {
+    num.innerHTML = count;
+  }
+  const handlePlus = () => {
+    console.log("plus");
+    count = count+1;
+    updateNum();
+  }
+  const handleMinus = () => {
+    console.log("Minus");
+    count = count-1;
+    updateNum();
+  }
+
+
+  plus.addEventListener("click", handlePlus);
+  minus.addEventListener("click", handleMinus);
+  num.innerHTML = count;
+*/
+
+
+
+
+//Redux_Vanilla JS
+import {createStore} from "redux";
+
 const plus = document.getElementById("plus");
 const minus = document.getElementById("minus");
 const num = document.querySelector("span");
-let count = 12;
 
+const PLUS = "PLUS";
+const MINUS = "MINUS";
+const reducer = (state=12, action) => {
+  switch (action.type) {
+    case PLUS:
+      console.log("plus!!");
+      return state + 1;
+    case MINUS:
+      console.log("minus!!");
+      return state - 1;
+    default:
+      return state;
+  }
+}
+const store = createStore(reducer);
 
 const updateNum = () => {
-  num.innerHTML = count;
+  num.innerHTML = store.getState();
 }
-const handlePlus = () => {
-  console.log("plus");
-  count = count+1;
-  updateNum();
-}
-const handleMinus = () => {
-  console.log("Minus");
-  count = count-1;
-  updateNum();
-}
+store.subscribe(updateNum);
 
-
-plus.addEventListener("click", handlePlus);
-minus.addEventListener("click", handleMinus);
-num.innerHTML = count;
+updateNum();
+plus.addEventListener("click", () => {store.dispatch({type : PLUS});});
+minus.addEventListener("click", () => {store.dispatch({type : MINUS});});
